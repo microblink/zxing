@@ -115,7 +115,7 @@ Fallible<void> DecodedBitStreamParser::append(std::string &result,
 
   int nResult = maxOut - (int)nTo;
   bufOut[nResult] = '\0';
-  result.append((const char *)bufOut);
+  result.append((const char *)bufOut, static_cast<size_t>(nResult+1));
   delete[] bufOut;
 #else
   result.append((const char *)bufIn, nIn);
