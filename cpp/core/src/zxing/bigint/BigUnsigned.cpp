@@ -320,8 +320,11 @@ void BigUnsigned::subtract(const BigUnsigned &a, const BigUnsigned &b) {
  * will return `num.blk[x-1]' instead of the desired 0 when `y == 0';
  * the test `y == 0' handles this case specially.
  */
-inline BigUnsigned::Blk getShiftedBlock(const BigUnsigned &num,
-    BigUnsigned::Index x, unsigned int y) {
+inline BigUnsigned::Blk getShiftedBlock(const BigUnsigned &num, BigUnsigned::Index x, unsigned int y)
+#ifdef __clang__
+    __attribute__(( no_sanitize( "integer" ) ))
+#endif
+{
     BigUnsigned::Blk part1 = (x == 0 || y == 0) ? 0 : (num.blk[x - 1] >> (BigUnsigned::N - y));
     BigUnsigned::Blk part2 = (x == num.len) ? 0 : (num.blk[x] << y);
     return part1 | part2;
