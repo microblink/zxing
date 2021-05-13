@@ -25,7 +25,7 @@
 #include <zxing/common/Counted.h>  // for Ref
 #include "zxing/common/Error.hpp"
 
-#include <Utils/stringstreamlite.hpp>
+#include <CoreUtils/StringStreamLite.hpp>
 
 #include <string>
 #include <vector>
@@ -65,27 +65,27 @@ private:
   /**
    * See ISO 16022:2006, 5.2.3 and Annex C, Table C.2
    */
-  Fallible<int> decodeAsciiSegment(Ref<BitSource> bits, mb::stringstreamlite &result, mb::stringstreamlite &resultTrailer) MB_NOEXCEPT_EXCEPT_BADALLOC;
+  Fallible<int> decodeAsciiSegment(Ref<BitSource> bits, MB::StringStreamLite &result, MB::StringStreamLite &resultTrailer) MB_NOEXCEPT_EXCEPT_BADALLOC;
   /**
    * See ISO 16022:2006, 5.2.5 and Annex C, Table C.1
    */
-  Fallible<void> decodeC40Segment(Ref<BitSource> bits, mb::stringstreamlite &result) MB_NOEXCEPT_EXCEPT_BADALLOC;
+  Fallible<void> decodeC40Segment(Ref<BitSource> bits, MB::StringStreamLite &result) MB_NOEXCEPT_EXCEPT_BADALLOC;
   /**
    * See ISO 16022:2006, 5.2.6 and Annex C, Table C.2
    */
-  Fallible<void> decodeTextSegment(Ref<BitSource> bits, mb::stringstreamlite &result) MB_NOEXCEPT_EXCEPT_BADALLOC;
+  Fallible<void> decodeTextSegment(Ref<BitSource> bits, MB::StringStreamLite &result) MB_NOEXCEPT_EXCEPT_BADALLOC;
   /**
    * See ISO 16022:2006, 5.2.7
    */
-  Fallible<void> decodeAnsiX12Segment(Ref<BitSource> bits, mb::stringstreamlite &result) MB_NOEXCEPT_EXCEPT_BADALLOC;
+  Fallible<void> decodeAnsiX12Segment(Ref<BitSource> bits, MB::StringStreamLite &result) MB_NOEXCEPT_EXCEPT_BADALLOC;
   /**
    * See ISO 16022:2006, 5.2.8 and Annex C Table C.3
    */
-  Fallible<void> decodeEdifactSegment(Ref<BitSource> bits, mb::stringstreamlite &result) MB_NOEXCEPT_EXCEPT_BADALLOC;
+  Fallible<void> decodeEdifactSegment(Ref<BitSource> bits, MB::StringStreamLite &result) MB_NOEXCEPT_EXCEPT_BADALLOC;
   /**
    * See ISO 16022:2006, 5.2.9 and Annex B, B.2
    */
-  Fallible<void> decodeBase256Segment(Ref<BitSource> bits, mb::stringstreamlite &result, std::vector<unsigned char> byteSegments) MB_NOEXCEPT_EXCEPT_BADALLOC;
+  Fallible<void> decodeBase256Segment(Ref<BitSource> bits, MB::StringStreamLite &result, std::vector<unsigned char> byteSegments) MB_NOEXCEPT_EXCEPT_BADALLOC;
 
   void parseTwoBytes(int firstByte, int secondByte, int*& result);
   /**

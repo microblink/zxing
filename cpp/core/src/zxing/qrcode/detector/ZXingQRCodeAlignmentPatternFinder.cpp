@@ -30,7 +30,7 @@
 #include "zxing/common/Counted.h"                    // for Ref
 #include "zxing/qrcode/detector/AlignmentPattern.h"  // for AlignmentPattern
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 #include <opencv2/core/fast_math.hpp>
 

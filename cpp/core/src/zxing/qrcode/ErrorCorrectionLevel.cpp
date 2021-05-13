@@ -23,7 +23,7 @@
 
 #include "zxing/ReaderException.h"  // for ReaderException
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 using std::string;
 

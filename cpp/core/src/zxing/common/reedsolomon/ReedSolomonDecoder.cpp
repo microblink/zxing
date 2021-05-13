@@ -25,8 +25,8 @@
 #include "zxing/common/reedsolomon/GenericGFPoly.h"         // for GenericGFPoly
 #include "zxing/common/reedsolomon/ReedSolomonException.h"  // for ReedSolomonException
 
-#include <Log.h>                                            // for LOGV
-#include <Utils/Macros.h>
+#include <LogAndTimer/Log.hpp>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 using pping::Ref;
 using pping::ArrayRef;

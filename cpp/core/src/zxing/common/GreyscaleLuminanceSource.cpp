@@ -25,7 +25,7 @@
 #include "zxing/LuminanceSource.h"                         // for LuminanceSource
 
 #include <boost/assert.hpp>
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 namespace pping {
 

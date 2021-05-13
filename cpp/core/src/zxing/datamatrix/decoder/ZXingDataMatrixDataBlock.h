@@ -24,7 +24,7 @@
 #include <zxing/common/Counted.h>  // for Counted
 #include "zxing/common/Error.hpp"
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 #include <vector>                  // for vector
 

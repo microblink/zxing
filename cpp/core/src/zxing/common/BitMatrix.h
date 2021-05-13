@@ -20,7 +20,7 @@
  * limitations under the License.
  */
 
-#include "Utils/stringstreamlite.hpp"
+#include <CoreUtils/StringStreamLite.hpp>
 
 #include <zxing/common/Counted.h>  // for Counted, Ref
 #include <zxing/common/Error.hpp>
@@ -79,7 +79,7 @@ public:
 
   unsigned int* getBits() const;
 
-  friend mb::stringstreamlite& operator<<(mb::stringstreamlite &out, const BitMatrix &bm);
+  friend MB::StringStreamLite& operator<<(MB::StringStreamLite &out, const BitMatrix &bm);
   const char *description();
 
 private:

@@ -57,7 +57,7 @@ public:
 #endif
 
 #if (!defined _MSC_VER) || (_MSC_VER>=1300)		//* hfn not for eMbedded c++ compiler
-#define _STRING_RESULT		mb::stringstreamlite
+#define _STRING_RESULT		MB::StringStreamLite
 #else
 #define _STRING_RESULT		hfn::StringComposer
 #endif

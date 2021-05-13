@@ -42,8 +42,8 @@
 #include "zxing/qrcode/ErrorCorrectionLevel.h"      // for ErrorCorrectionLevel
 #include "zxing/qrcode/decoder/Mode.h"              // for Mode, Mode::TERMINATOR, Mode::ALPHANUMERIC, Mode::BYTE, Mode::ECI, Mode::FNC1_FIRST_POSITION, Mode::FNC1_SECOND_POSITION, Mode::HANZI
 
-#include <Utils/Macros.h>
-#include <Utils/stringstreamlite.hpp>
+#include <LogAndTimer/Utils/Macros.hpp>
+#include <CoreUtils/StringStreamLite.hpp>
 
 namespace pping {
 namespace qrcode {
@@ -343,7 +343,7 @@ Fallible<void> DecodedBitStreamParser::decodeAlphanumericSegment(Ref<BitSource> 
                                                        int count,
                                                        bool fc1InEffect) {
   BitSource& bits (*bits_);
-  mb::stringstreamlite bytes;
+  MB::StringStreamLite bytes;
   // Read two characters at a time
   while (count > 1) {
     if (bits.available() < 11) {

@@ -23,7 +23,7 @@
 
 #include "zxing/bigint/BigUnsigned.h"  // for BigUnsigned, BigUnsigned::Blk, BigUnsigned::CmpRes::equal, BigUnsigned::CmpRes::greater, BigUnsigned::CmpRes::less, convertToPrimitive
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 #include <boost/assert.hpp>
 #include <boost/config_ex.hpp>

@@ -24,7 +24,7 @@
 #include "zxing/common/Error.hpp"
 
 #include <string>
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 namespace pping {
 namespace qrcode {

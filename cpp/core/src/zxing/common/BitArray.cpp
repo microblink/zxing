@@ -19,7 +19,7 @@
 
 #include "zxing/common/IllegalArgumentException.h"  // for IllegalArgumentException
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 using namespace std;
 

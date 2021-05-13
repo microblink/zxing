@@ -26,7 +26,7 @@
 #include "zxing/common/Array.h"                      // for ArrayRef, Array
 #include "zxing/common/Counted.h"                    // for Ref
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 using pping::GenericGF;
 using pping::GenericGFPoly;

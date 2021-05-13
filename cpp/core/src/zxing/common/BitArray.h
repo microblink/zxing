@@ -22,7 +22,7 @@
 #include <stddef.h>                // for size_t
 #include <zxing/common/Counted.h>  // for Counted
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 #include <limits>                  // for numeric_limits, numeric_limits<>::digits
 #include <vector>                  // for vector, allocator
 

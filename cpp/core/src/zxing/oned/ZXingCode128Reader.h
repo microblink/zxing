@@ -19,7 +19,7 @@
 #include <zxing/oned/ZXingOneDReader.h>  // for OneDReader::PATTERN_MATCH_RESULT_SCALE_FACTOR, OneDReader
 
 #include "zxing/common/Counted.h"        // for Ref
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 namespace pping {
 class BitArray;
