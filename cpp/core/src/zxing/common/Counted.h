@@ -23,10 +23,14 @@
 #include <boost/config.hpp>
 #include <boost/assert.hpp>
 
+#include <Utils/disable_warnings.hpp>
+
 #include <cstdint>
 #include <limits>
 #include <string>
 
+MB_DISABLE_WARNING_PUSH
+MB_DISABLE_WARNING_GCC( "-Wnonnull" )
 namespace pping {
 
 /* base class for reference-counted objects */
@@ -210,3 +214,4 @@ public:
 };
 }
 
+MB_DISABLE_WARNING_POP
