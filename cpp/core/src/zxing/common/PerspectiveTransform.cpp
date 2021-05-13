@@ -22,7 +22,7 @@
 #include <zxing/common/PerspectiveTransform.h>
 
 #include "zxing/common/Counted.h"  // for Ref
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 #include <cmath>
 

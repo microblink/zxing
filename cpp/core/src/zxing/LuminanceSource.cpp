@@ -22,7 +22,7 @@
 #include <zxing/common/IllegalArgumentException.h>  // for IllegalArgumentException
 
 #include "zxing/common/Counted.h"                   // for Ref
-#include "Utils/stringstreamlite.hpp"
+#include <CoreUtils/StringStreamLite.hpp>
 
 #include <boost/assert.hpp>
 
@@ -30,7 +30,7 @@ namespace pping {
 
 LuminanceSource::operator std::string() const MB_NOEXCEPT_EXCEPT_BADALLOC {
   unsigned char* row = 0;
-  mb::stringstreamlite oss;
+  MB::StringStreamLite oss;
   for (int y = 0; y < getHeight(); y++) {
     row = getRow(y, row);
     for (int x = 0; x < getWidth(); x++) {

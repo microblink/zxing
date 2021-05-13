@@ -39,7 +39,7 @@
 #include "zxing/common/Counted.h"                           // for Ref
 #include "zxing/common/Error.hpp"                           // for Fallible
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 #include <cmath>
 

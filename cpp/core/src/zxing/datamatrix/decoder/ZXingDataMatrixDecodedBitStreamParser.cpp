@@ -70,8 +70,8 @@ const char DecodedBitStreamParser::TEXT_SHIFT3_SET_CHARS[] = {
 
 FallibleRef<DecoderResult> DecodedBitStreamParser::decode(ArrayRef<unsigned char> bytes) MB_NOEXCEPT_EXCEPT_BADALLOC {
   Ref<BitSource> bits(new BitSource(bytes));
-  mb::stringstreamlite result;
-  mb::stringstreamlite resultTrailer;
+  MB::StringStreamLite result;
+  MB::StringStreamLite resultTrailer;
   vector<unsigned char> byteSegments;
   int mode = ASCII_ENCODE;
   do {
@@ -138,8 +138,8 @@ FallibleRef<DecoderResult> DecodedBitStreamParser::decode(ArrayRef<unsigned char
   return Ref<DecoderResult>(new DecoderResult(rawBytes, text));
 }
 
-Fallible<int> DecodedBitStreamParser::decodeAsciiSegment(Ref<BitSource> bits, mb::stringstreamlite & result,
-  mb::stringstreamlite & resultTrailer) MB_NOEXCEPT_EXCEPT_BADALLOC {
+Fallible<int> DecodedBitStreamParser::decodeAsciiSegment(Ref<BitSource> bits, MB::StringStreamLite & result,
+  MB::StringStreamLite & resultTrailer) MB_NOEXCEPT_EXCEPT_BADALLOC {
   bool upperShift = false;
   do {
       auto const tryReadBits(bits->readBits(8));
@@ -200,7 +200,7 @@ Fallible<int> DecodedBitStreamParser::decodeAsciiSegment(Ref<BitSource> bits, mb
   return ASCII_ENCODE;
 }
 
-Fallible<void> DecodedBitStreamParser::decodeC40Segment(Ref<BitSource> bits, mb::stringstreamlite & result) MB_NOEXCEPT_EXCEPT_BADALLOC {
+Fallible<void> DecodedBitStreamParser::decodeC40Segment(Ref<BitSource> bits, MB::StringStreamLite & result) MB_NOEXCEPT_EXCEPT_BADALLOC {
   // Three C40 values are encoded in a 16-bit value as
   // (1600 * C1) + (40 * C2) + C3 + 1
   // TODO(bbrown): The Upper Shift with C40 doesn't work in the 4 value scenario all the time
@@ -289,7 +289,7 @@ Fallible<void> DecodedBitStreamParser::decodeC40Segment(Ref<BitSource> bits, mb:
   return success();
 }
 
-Fallible<void> DecodedBitStreamParser::decodeTextSegment(Ref<BitSource> bits, mb::stringstreamlite & result) MB_NOEXCEPT_EXCEPT_BADALLOC {
+Fallible<void> DecodedBitStreamParser::decodeTextSegment(Ref<BitSource> bits, MB::StringStreamLite & result) MB_NOEXCEPT_EXCEPT_BADALLOC {
   // Three Text values are encoded in a 16-bit value as
   // (1600 * C1) + (40 * C2) + C3 + 1
   // TODO(bbrown): The Upper Shift with Text doesn't work in the 4 value scenario all the time
@@ -379,7 +379,7 @@ Fallible<void> DecodedBitStreamParser::decodeTextSegment(Ref<BitSource> bits, mb
   return success();
 }
 
-Fallible<void> DecodedBitStreamParser::decodeAnsiX12Segment(Ref<BitSource> bits, mb::stringstreamlite & result) MB_NOEXCEPT_EXCEPT_BADALLOC {
+Fallible<void> DecodedBitStreamParser::decodeAnsiX12Segment(Ref<BitSource> bits, MB::StringStreamLite & result) MB_NOEXCEPT_EXCEPT_BADALLOC {
   // Three ANSI X12 values are encoded in a 16-bit value as
   // (1600 * C1) + (40 * C2) + C3 + 1
 
@@ -438,7 +438,7 @@ void DecodedBitStreamParser::parseTwoBytes(int firstByte, int secondByte, int*& 
   result[2] = fullBitValue - temp * 40;
 }
   
-Fallible<void> DecodedBitStreamParser::decodeEdifactSegment(Ref<BitSource> bits, mb::stringstreamlite & result) MB_NOEXCEPT_EXCEPT_BADALLOC {
+Fallible<void> DecodedBitStreamParser::decodeEdifactSegment(Ref<BitSource> bits, MB::StringStreamLite & result) MB_NOEXCEPT_EXCEPT_BADALLOC {
   bool unlatch = false;
   do {
     // If there is only two or less bytes left then it will be encoded as ASCII
@@ -472,7 +472,7 @@ Fallible<void> DecodedBitStreamParser::decodeEdifactSegment(Ref<BitSource> bits,
   return success();
 }
   
-Fallible<void> DecodedBitStreamParser::decodeBase256Segment(Ref<BitSource> bits, mb::stringstreamlite& result, vector<unsigned char> byteSegments) MB_NOEXCEPT_EXCEPT_BADALLOC {
+Fallible<void> DecodedBitStreamParser::decodeBase256Segment(Ref<BitSource> bits, MB::StringStreamLite& result, vector<unsigned char> byteSegments) MB_NOEXCEPT_EXCEPT_BADALLOC {
   // Figure out how long the Base 256 Segment is.
   int codewordPosition = 1 + bits->getByteOffset(); // position is 1-indexed
 

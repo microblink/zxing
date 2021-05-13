@@ -23,7 +23,7 @@
 #include <zxing/common/IllegalArgumentException.h>  // for IllegalArgumentException
 
 #include <boost/assert.hpp>
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 namespace pping {
 

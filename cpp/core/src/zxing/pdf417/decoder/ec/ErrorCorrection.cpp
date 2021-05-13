@@ -26,7 +26,7 @@
 #include "zxing/pdf417/decoder/ec/ModulusPoly.h"            // for ModulusPoly
 
 #if (defined (DEBUG) && defined _WIN32)
-#include "Log.h"
+#include <LogAndTimer/Log.hpp>
 #include "Utils/disable_warnings.hpp"
 #include <windows.h>
 MB_DISABLE_WARNING_MSVC( 4995 )

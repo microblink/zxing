@@ -22,7 +22,7 @@
 #include <zxing/qrcode/QRCodeReader.h>
 #include <zxing/qrcode/detector/ZXingQRCodeDetector.h>  // for Detector
 
-#include "Log.h"                                        // for LOGV
+#include <LogAndTimer/Log.hpp>
 #include "zxing/BarcodeFormat.h"                        // for BarcodeFormat::QR_CODE
 #include "zxing/BinaryBitmap.h"                         // for BinaryBitmap
 #include "zxing/DecodeHints.h"                          // for DecodeHints
@@ -37,7 +37,7 @@
 #include "zxing/ReaderException.h"
 
 #ifdef DEBUG
-#include <Utils/stringstreamlite.hpp>
+#include <CoreUtils/StringStreamLite.hpp>
 #endif
 #include <vector>                                       // for allocator, vector
 
@@ -74,7 +74,7 @@ namespace pping {
             for (size_t i = 0; i < points.size(); i++) {
                 LOGV("   %f, %f", points[i]->getX() ,points[i]->getY());
             }
-            mb::stringstreamlite ss;
+            MB::StringStreamLite ss;
             ss << *((*detectorResult)->getBits());
             LOGV("bits:\n%s", ss.str().c_str());
 #endif

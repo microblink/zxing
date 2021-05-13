@@ -23,7 +23,7 @@
 
 #include "BigUnsigned.h"  // for BigUnsigned, BigUnsigned::Blk, BigUnsigned::CmpRes, BigUnsigned::Index
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 namespace bigInteger {
 

@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 #pragma once
 
-#include <Log.h>
+#include <LogAndTimer/Log.hpp>
 #include <Utils/disable_warnings.hpp>
 
 #include <boost/assert.hpp>

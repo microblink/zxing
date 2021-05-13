@@ -23,7 +23,7 @@
 
 #include "zxing/bigint/NumberlikeArray.h"  // for NumberlikeArray<>::N
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 namespace bigInteger {
 

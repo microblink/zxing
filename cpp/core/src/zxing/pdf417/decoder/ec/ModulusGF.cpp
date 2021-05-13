@@ -23,7 +23,7 @@
 #include "zxing/common/IllegalArgumentException.h"  // for IllegalArgumentException
 #include "zxing/pdf417/decoder/ec/ModulusPoly.h"    // for ModulusPoly
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 namespace pping {
 namespace pdf417 {

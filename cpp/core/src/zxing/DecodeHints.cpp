@@ -23,7 +23,7 @@
 #include "zxing/BarcodeFormat.h"                    // for BarcodeFormat, BarcodeFormat::AZTEC_BARCODE, BarcodeFormat::CODE_128, BarcodeFormat::CODE_39, BarcodeFo...
 #include "zxing/ResultPointCallback.h"              // for ResultPointCallback
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 namespace pping {
 

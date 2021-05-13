@@ -24,7 +24,7 @@
 #include "zxing/common/Counted.h"                   // for Ref
 #include "zxing/common/IllegalArgumentException.h"  // for IllegalArgumentException
 
-#include <Utils/Macros.h>
+#include <LogAndTimer/Utils/Macros.hpp>
 
 /**
  * @author Sean Owen

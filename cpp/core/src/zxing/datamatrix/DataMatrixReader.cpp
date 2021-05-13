@@ -23,7 +23,7 @@
 #include <zxing/datamatrix/detector/ZXingDataMatrixDetector.h>  // for Detector
 #include <vector>                                               // for allocator, vector
 
-#include "Log.h"                                                // for LOGV
+#include <LogAndTimer/Log.hpp>
 #include "zxing/BarcodeFormat.h"                                // for BarcodeFormat::DATA_MATRIX
 #include "zxing/BinaryBitmap.h"                                 // for BinaryBitmap
 #include "zxing/DecodeHints.h"                                  // for DecodeHints
@@ -37,7 +37,7 @@
 #include "zxing/datamatrix/decoder/ZXingDataMatrixDecoder.h"    // for Decoder
 
 #ifdef DEBUG
-#include "Utils/stringstreamlite.hpp"
+#include <CoreUtils/StringStreamLite.hpp>
 #endif
 
 namespace pping {
@@ -81,7 +81,7 @@ FallibleRef<Result> DataMatrixReader::decode(Ref<BinaryBitmap> image, DecodeHint
   for (size_t i = 0; i < points.size(); i++) {
     LOGV("   %f, %f", points[i]->getX(), points[i]->getY());
   }
-  mb::stringstreamlite ss;
+  MB::StringStreamLite ss;
   ss << *((*detectorResult)->getBits());
   LOGV("bits:%s", ss.str().c_str());
 #endif

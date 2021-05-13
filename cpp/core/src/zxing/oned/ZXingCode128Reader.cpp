@@ -22,7 +22,7 @@
 #include <zxing/common/Array.h>               // for ArrayRef
 #include <zxing/oned/ZXingOneDResultPoint.h>  // for OneDResultPoint
 #include <algorithm>                          // for max, min
-#include "Utils/stringstreamlite.hpp"
+#include <CoreUtils/StringStreamLite.hpp>
 #include <vector>                             // for allocator, vector, __vector_base<>::value_type
 
 #include "zxing/BarcodeFormat.h"              // for BarcodeFormat::CODE_128
@@ -276,7 +276,7 @@ FallibleRef<Result> Code128Reader::decodeRow(int rowNumber, Ref<BitArray> row) M
         bool isNextShifted = false;
 
         std::string tmpResultString;
-        mb::stringstreamlite tmpResultSStr;  // used if its Code 128C
+        MB::StringStreamLite tmpResultSStr;  // used if its Code 128C
 
         int lastStart = startPatternInfo[0];
         int nextStart = startPatternInfo[1];

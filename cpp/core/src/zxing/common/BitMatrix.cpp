@@ -144,7 +144,7 @@ unsigned int* BitMatrix::getBits() const {
 }
 
 namespace pping {
-  mb::stringstreamlite& operator<<(mb::stringstreamlite &out, const BitMatrix &bm) {
+  MB::StringStreamLite& operator<<(MB::StringStreamLite &out, const BitMatrix &bm) {
     for (size_t y = 0; y < bm.height_; y++) {
       for (size_t x = 0; x < bm.width_; x++) {
         out << (bm.get(x, y) ? "X " : "  ");
@@ -156,7 +156,7 @@ namespace pping {
 }
 
 const char* BitMatrix::description() {
-  mb::stringstreamlite out;
+  MB::StringStreamLite out;
   out << *this;
   return out.str().c_str();
 }
