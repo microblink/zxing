@@ -25,7 +25,11 @@ namespace pping { namespace common { namespace detector { namespace math_utils {
  * Ends up being a bit faster than {@link Math#round(float)}. This merely rounds its
  * argument to the nearest int, where x.5 rounds up to x+1.
  */
-inline int round(float d) {
+inline int round(float d)
+#ifdef __clang__
+  __attribute__(( no_sanitize( "undefined" ) ))
+#endif
+{
   return (int) (d + 0.5f);
 }
 
