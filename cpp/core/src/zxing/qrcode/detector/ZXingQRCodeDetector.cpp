@@ -176,7 +176,12 @@ FallibleRef<BitMatrix> Detector::sampleGrid(Ref<BitMatrix> image, int dimension,
 }
 
 Fallible<int> Detector::computeDimension(Ref<ResultPoint> topLeft, Ref<ResultPoint> topRight, Ref<ResultPoint> bottomLeft,
-                               float moduleSize) MB_NOEXCEPT_EXCEPT_BADALLOC {
+                               float moduleSize) MB_NOEXCEPT_EXCEPT_BADALLOC
+#ifdef __clang__
+    __attribute__(( no_sanitize( "undefined" ) ))
+    __attribute__(( no_sanitize( "integer" ) ))
+#endif
+{
   int tltrCentersDimension =
     math_utils::round(ResultPoint::distance(topLeft, topRight) / moduleSize);
   int tlblCentersDimension =
