@@ -57,6 +57,9 @@ Fallible<void> ErrorCorrection::decode(ArrayRef<int> received,
 {
     if(numECCodewords < 0)
         return failure<ReedSolomonException>("numECCodewords < 0");
+    
+    if((int)erasures.size() > numECCodewords)
+        return failure<ReedSolomonException>("Too many erasures");
 
     auto const tryCreatePoly(ModulusPoly::createModulusPoly(field_, received));
     if(!tryCreatePoly)
@@ -80,8 +83,8 @@ Fallible<void> ErrorCorrection::decode(ArrayRef<int> received,
         int b = field_.exp((int)received.size() - 1 - erasures[i]);
         // Add (1 - bx) term:
         ArrayRef<int> one_minus_b_x(new Array<int>(2));
-        one_minus_b_x[1]=field_.subtract(0,b);
-        one_minus_b_x[0]=1;
+        one_minus_b_x[0]=field_.subtract(0,b);
+        one_minus_b_x[1]=1;
 
         auto const tryCreateModPoly(ModulusPoly::createModulusPoly(field_,one_minus_b_x));
         if(!tryCreateModPoly)
@@ -99,14 +102,20 @@ Fallible<void> ErrorCorrection::decode(ArrayRef<int> received,
           return tryCreatePolySyndrome.error();
 
       Ref<ModulusPoly> syndrome (*tryCreatePolySyndrome);
-      //syndrome = syndrome.multiply(knownErrors);
-
+      {
+          auto syndromeWithErrors{ syndrome->multiply( knownErrors ) };
+          if ( !syndromeWithErrors )
+            return syndromeWithErrors.error();
+          syndrome = *syndromeWithErrors;
+      }
+      
       auto const tryBuildMonomial(field_.buildMonomial(numECCodewords, 1));
       if(!tryBuildMonomial)
           return tryBuildMonomial.error();
 
-      auto const tryGetSigmaOmega(runEuclideanAlgorithm(*tryBuildMonomial, syndrome, numECCodewords));
-      if(!tryGetSigmaOmega)
+      auto const tryGetSigmaOmega(
+          runEuclideanAlgorithm( *tryBuildMonomial, syndrome, numECCodewords, ( int ) erasures.size() ) );
+      if ( !tryGetSigmaOmega )
           return tryGetSigmaOmega.error();
 
       auto const sigmaOmega = *tryGetSigmaOmega;
@@ -114,8 +123,13 @@ Fallible<void> ErrorCorrection::decode(ArrayRef<int> received,
       Ref<ModulusPoly> sigma = sigmaOmega[0];
       Ref<ModulusPoly> omega = sigmaOmega[1];
 
-      //sigma = sigma.multiply(knownErrors);
-
+      {
+          auto sigmaWithErrors{ sigma->multiply( knownErrors ) };
+          if ( !sigmaWithErrors )
+            return sigmaWithErrors.error();
+          sigma = *sigmaWithErrors;
+      }
+      
       auto const tryGetLocations(findErrorLocations(sigma));
       if(!tryGetLocations)
           return tryGetLocations.error();
@@ -148,22 +162,15 @@ Fallible<void> ErrorCorrection::decode(ArrayRef<int> received,
     return success();
 }
 
-Fallible<std::vector<Ref<ModulusPoly>>> ErrorCorrection::runEuclideanAlgorithm(Ref<ModulusPoly> a, Ref<ModulusPoly> b, int R) MB_NOEXCEPT_EXCEPT_BADALLOC
+Fallible<std::vector<Ref<ModulusPoly>>> ErrorCorrection::runEuclideanAlgorithm(Ref<ModulusPoly> a, Ref<ModulusPoly> b, int R, int numErasures) MB_NOEXCEPT_EXCEPT_BADALLOC
 {
-    // Assume a's degree is >= b's
-    if (a->getDegree() < b->getDegree()) {
-      Ref<ModulusPoly> temp = a;
-      a = b;
-      b = temp;
-    }
-
     Ref<ModulusPoly> rLast ( a);
     Ref<ModulusPoly> r ( b);
     Ref<ModulusPoly> tLast ( field_.getZero());
     Ref<ModulusPoly> t ( field_.getOne());
 
     // Run Euclidean algorithm until r's degree is less than R/2
-    while (r->getDegree() >= R / 2) {
+    while (r->getDegree() >= R / 2 + numErasures / 2) {
       Ref<ModulusPoly> rLastLast (rLast);
       Ref<ModulusPoly> tLastLast (tLast);
       rLast = r;
