@@ -19,6 +19,8 @@
  * limitations under the License.
  */
 
+#include <zxing/ResultPoint.h>     // for ResultPoint
+#include "zxing/LuminanceSource.h" // for LuminanceSource
 #include <zxing/common/Counted.h>  // for Ref, Counted
 #include "zxing/common/Error.hpp"
 

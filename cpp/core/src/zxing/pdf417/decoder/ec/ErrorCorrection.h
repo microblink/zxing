@@ -52,7 +52,9 @@ class ErrorCorrection: public Counted {
                      ArrayRef<int> erasures) MB_NOEXCEPT_EXCEPT_BADALLOC;
 
   private:
-    Fallible<std::vector<Ref<ModulusPoly> > > runEuclideanAlgorithm(Ref<ModulusPoly> a, Ref<ModulusPoly> b, int R) MB_NOEXCEPT_EXCEPT_BADALLOC;
+      Fallible< std::vector< Ref< ModulusPoly > > >
+      runEuclideanAlgorithm( Ref< ModulusPoly > a, Ref< ModulusPoly > b, int R, int numErasures )
+          MB_NOEXCEPT_EXCEPT_BADALLOC;
 
     Fallible<ArrayRef<int> > findErrorLocations(Ref<ModulusPoly> errorLocator) MB_NOEXCEPT_EXCEPT_BADALLOC;
     Fallible<ArrayRef<int> > findErrorMagnitudes(Ref<ModulusPoly> errorEvaluator,
