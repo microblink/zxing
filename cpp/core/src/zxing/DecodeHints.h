@@ -18,6 +18,8 @@
  * limitations under the License.
  */
 
+#include <zxing/common/Str.h>           // for Str
+#include <zxing/Binarizer.h>            // for Binarizer
 #include <zxing/BarcodeFormat.h>        // for BarcodeFormat, BarcodeFormat::AZTEC_BARCODE, BarcodeFormat::CODE_128, BarcodeFormat::CODE_39, BarcodeFormat::Barcod...
 #include <zxing/ResultPointCallback.h>  // for ResultPointCallback
 
