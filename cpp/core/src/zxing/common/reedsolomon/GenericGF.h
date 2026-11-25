@@ -45,6 +45,7 @@ namespace pping {
     Fallible<void> checkInit() MB_NOEXCEPT_EXCEPT_BADALLOC;
 
     GenericGF(int primitive, int size, int b) MB_NOEXCEPT_EXCEPT_BADALLOC;
+    static Ref<GenericGF> createInitialized(int primitive, int size, int b) MB_NOEXCEPT_EXCEPT_BADALLOC;
     
   public:
     static Ref<GenericGF> AZTEC_DATA_12;
