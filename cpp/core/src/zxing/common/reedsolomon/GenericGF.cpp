@@ -32,13 +32,15 @@ using pping::GenericGF;
 using pping::GenericGFPoly;
 using pping::Ref;
 
-Ref<GenericGF> GenericGF::QR_CODE_FIELD_256(new GenericGF(0x011D, 256, 0));
-Ref<GenericGF> GenericGF::DATA_MATRIX_FIELD_256(new GenericGF(0x012D, 256, 1));
-Ref<GenericGF> GenericGF::AZTEC_PARAM(new GenericGF(0x13, 16, 1));
-Ref<GenericGF> GenericGF::AZTEC_DATA_6(new GenericGF(0x43, 64, 1));
+// The shared fields are built before main(): building their tables on first use races when
+// several threads decode at once.
+Ref<GenericGF> GenericGF::QR_CODE_FIELD_256(GenericGF::createInitialized(0x011D, 256, 0));
+Ref<GenericGF> GenericGF::DATA_MATRIX_FIELD_256(GenericGF::createInitialized(0x012D, 256, 1));
+Ref<GenericGF> GenericGF::AZTEC_PARAM(GenericGF::createInitialized(0x13, 16, 1));
+Ref<GenericGF> GenericGF::AZTEC_DATA_6(GenericGF::createInitialized(0x43, 64, 1));
 Ref<GenericGF> GenericGF::AZTEC_DATA_8(GenericGF::DATA_MATRIX_FIELD_256);
-Ref<GenericGF> GenericGF::AZTEC_DATA_10(new GenericGF(0x409, 1024, 1));
-Ref<GenericGF> GenericGF::AZTEC_DATA_12(new GenericGF(0x1069, 4096, 1));
+Ref<GenericGF> GenericGF::AZTEC_DATA_10(GenericGF::createInitialized(0x409, 1024, 1));
+Ref<GenericGF> GenericGF::AZTEC_DATA_12(GenericGF::createInitialized(0x1069, 4096, 1));
 Ref<GenericGF> GenericGF::MAXICODE_FIELD_64(GenericGF::AZTEC_DATA_6);
   
 namespace {
@@ -48,6 +50,14 @@ namespace {
 /* Dont't use this directly, use the factory method! */
 GenericGF::GenericGF(int primitive, int size, int b) MB_NOEXCEPT_EXCEPT_BADALLOC
   : size_(size), primitive_(primitive), generatorBase_(b), initialized_(false) {}
+
+Ref<GenericGF> GenericGF::createInitialized(int primitive, int size, int b) MB_NOEXCEPT_EXCEPT_BADALLOC
+{
+    Ref<GenericGF> field(new GenericGF(primitive, size, b));
+    // Only an allocation failure leaves the field uninitialized; checkInit() then retries.
+    [[maybe_unused]] auto const init(field->initialize());
+    return field;
+}
 
 pping::FallibleRef<GenericGF> GenericGF::createGenericGF(int primitive, int size, int b) MB_NOEXCEPT_EXCEPT_BADALLOC
 {

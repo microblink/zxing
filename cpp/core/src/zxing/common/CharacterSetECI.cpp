@@ -122,9 +122,11 @@ pping::Fallible<CharacterSetECI*> CharacterSetECI::getCharacterSetECIByValue(int
   if (value < 0 || value >= 900) {
     return failure<FormatException>("ECI value should be in [0, 900>");
   }
-  return VALUE_TO_ECI[value];
+  auto const eci = VALUE_TO_ECI.find(value);
+  return eci == VALUE_TO_ECI.end() ? nullptr : eci->second;
 }
 
 CharacterSetECI* CharacterSetECI::getCharacterSetECIByName(string const& name) {
-  return NAME_TO_ECI[name];
+  auto const eci = NAME_TO_ECI.find(name);
+  return eci == NAME_TO_ECI.end() ? nullptr : eci->second;
 }

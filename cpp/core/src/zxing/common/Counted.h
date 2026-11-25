@@ -25,6 +25,7 @@
 
 #include <Utils/disable_warnings.hpp>
 
+#include <atomic>
 #include <cstdint>
 #include <limits>
 #include <string>
@@ -34,9 +35,11 @@ MB_DISABLE_WARNING_GCC( "-Wnonnull" )
 namespace pping {
 
 /* base class for reference-counted objects */
+// The count is atomic: shared objects such as the Galois fields and their polynomials are
+// referenced from every thread that decodes at the same time.
 class Counted {
 private:
-  std::uint_fast16_t references_;
+  std::atomic<std::uint_fast16_t> references_;
   template< typename T > friend void intrusive_ptr_add_ref( T* ) noexcept;
   template< typename T > friend void intrusive_ptr_release( T* ) noexcept;
 protected:
@@ -63,8 +66,8 @@ public:
     cout << "retaining " << typeid(*this).name() << " " << this <<
          " @ " << count_;
 #endif
-    BOOST_ASSERT( references_ < std::numeric_limits<decltype( references_ )>::max() );
-    ++references_;
+    [[maybe_unused]] auto const previous = references_.fetch_add( 1, std::memory_order_relaxed );
+    BOOST_ASSERT( previous < std::numeric_limits<std::uint_fast16_t>::max() );
 #ifdef DEBUG_COUNTING
     cout << "->" << count_ << "\n";
 #endif
@@ -75,8 +78,9 @@ public:
     cout << "releasing " << typeid(*this).name() << " " << this <<
          " @ " << count_;
 #endif
-    BOOST_ASSERT_MSG( references_ != 0, "Overreleasing already-deleted object" );
-    if ( BOOST_UNLIKELY( --references_ == 0 ) ) {
+    auto const previous = references_.fetch_sub( 1, std::memory_order_acq_rel );
+    BOOST_ASSERT_MSG( previous != 0, "Overreleasing already-deleted object" );
+    if ( BOOST_UNLIKELY( previous == 1 ) ) {
 #ifdef DEBUG_COUNTING
       cout << "deleting " << typeid(*this).name() << " " << this << "\n";
 #endif
@@ -87,19 +91,19 @@ public:
 
   /* return the current count for denugging purposes or similar */
   int count() const noexcept {
-    return references_;
+    return references_.load( std::memory_order_relaxed );
   }
 };
 
 template< typename T >
 void intrusive_ptr_add_ref( T* x ) noexcept {
-    BOOST_ASSERT( x->references_ < std::numeric_limits<decltype( x->references_ )>::max() );
-    ++x->references_;
+    [[maybe_unused]] auto const previous = x->references_.fetch_add( 1, std::memory_order_relaxed );
+    BOOST_ASSERT( previous < std::numeric_limits<std::uint_fast16_t>::max() );
 }
 
 template< typename T >
 void intrusive_ptr_release( T* x ) noexcept {
-    if ( BOOST_UNLIKELY( --x->references_ == 0 ) ) delete x;
+    if ( BOOST_UNLIKELY( x->references_.fetch_sub( 1, std::memory_order_acq_rel ) == 1 ) ) delete x;
 }
 
 /* counting reference to reference-counted objects */

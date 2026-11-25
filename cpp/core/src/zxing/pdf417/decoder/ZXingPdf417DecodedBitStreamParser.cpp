@@ -73,19 +73,20 @@ ArrayRef<BigInteger> DecodedBitStreamParser::AExp900_;
   /**
    * Table containing values for the exponent of 900.
    * This is used in the numeric compaction decode algorithm.
-   * Hint: will be initialized only once (because of zero check), so it can be
-   * called by the constructor.
+   * Hint: will be initialized only once, even when parsers are constructed on
+   * several threads at once, so it can be called by the constructor.
    */
 void DecodedBitStreamParser::InitExp900()
 {
-  if(AExp900_.array_ == NULL) {
+  [[maybe_unused]] static bool const built = [] {
     BigInteger nineHundred(900);
     AExp900_ = new Array<BigInteger>(EXP900_SIZE);
     AExp900_[0] = BigInteger(1);
     for (size_t i=1;i<AExp900_->size();i++) {
       AExp900_[i] = AExp900_[i-1] * nineHundred;
     }
-  }
+    return true;
+  }();
 }
 
 /**
